@@ -1,0 +1,205 @@
+S.No.,Name,Country,Playing Role,IPL Matches,Capped / Uncapped ,IPL 2022 Team,Auction Price,Lacs AucPrice,IPL 2021 Team,Previous IPL Team(s)
+1,Shikhar Dhawan,India,Batter,192,Capped,Punjab Kings,82500000,825,DC,"MI, DCH, SRH, DC"
+2,Ravichandran Ashwin,India,All Rounder,167,Capped,Rajasthan Royals,50000000,500,DC,"CSK, RPS, PBKS, DC"
+3,Pat Cummins,Australia,All Rounder,37,Capped,Kolkata Knight Riders,72500000,725,KKR,"DC, MI, KKR"
+4,Kagiso Rabada,South Africa,Bowler,50,Capped,Punjab Kings,92500000,925,DC,DC
+5,Trent Boult,New Zealand,Bowler,62,Capped,Rajasthan Royals,80000000,800,MI,"SRH, KKR, DC, MI"
+6,Shreyas Iyer,India,Batter,87,Capped,Kolkata Knight Riders,122500000,1225,DC,DC
+7,Mohammed Shami,India,Bowler,77,Capped,Gujarat Titans,62500000,625,PBKS,"KKR, DC, PBKS"
+8,Faf du Plessis,South Africa,Batter,100,Capped,Royal Challengers Bangalore,70000000,700,CSK,"CSK, RPS"
+9,Quinton de Kock,South Africa,Wicket Keeper Batter,77,Capped,Lucknow Super Giants,67500000,675,MI,"SRH, DC, RCB, MI"
+10,David Warner,Australia,Batter,150,Capped,Delhi Capitals,62500000,625,SRH,"DC, SRH"
+11,Manish Pandey,India,Batter,154,Capped,Lucknow Super Giants,46000000,460,SRH,"MI, RCB, PWI, KKR, SRH"
+12,Shimron Hetmyer,West Indies,Batter,31,Capped,Rajasthan Royals,85000000,850,DC,"RCB, DC"
+13,Robin Uthappa,India,Batter,193,Capped,Chennai Super Kings,20000000,200,CSK,"MI, RCB, PWI, KKR, RR, CSK"
+14,Jason Roy,England,Batter,13,Capped,Gujarat Titans,20000000,200,SRH,"GL, DC, SRH"
+15,Devdutt Padikkal,India,Batter,29,Capped,Rajasthan Royals,77500000,775,RCB,RCB
+16,Dwayne Bravo,West Indies,All Rounder,151,Capped,Chennai Super Kings,44000000,440,CSK,"MI, GL, CSK"
+17,Nitish Rana,India,All Rounder,77,Capped,Kolkata Knight Riders,80000000,800,KKR,"MI, KKR"
+18,Jason Holder,West Indies,All Rounder,26,Capped,Lucknow Super Giants,87500000,875,SRH,"CSK, KKR, SRH"
+19,Harshal Patel,India,All Rounder,63,Capped,Royal Challengers Bangalore,107500000,1075,RCB,"MI, DC, RCB"
+20,Deepak Hooda,India,All Rounder,80,Capped,Lucknow Super Giants,57500000,575,PBKS,"RR, SRH, PBKS"
+21,Wanindu Hasaranga,Sri Lanka,All Rounder,2,Capped,Royal Challengers Bangalore,107500000,1075,RCB,RCB
+22,Washington Sundar,India,All Rounder,42,Capped,Sunrisers Hyderabad,87500000,875,RCB,"RPS, RCB"
+23,Krunal Pandya,India,All Rounder,84,Capped,Lucknow Super Giants,82500000,825,MI,MI
+24,Mitchell Marsh,Australia,All Rounder,21,Capped,Delhi Capitals,65000000,650,SRH,"DCH, PWI, RPS, SRH"
+25,Ambati Rayudu,India,Wicket Keeper Batter,175,Capped,Chennai Super Kings,67500000,675,CSK,"MI, CSK"
+26,Ishan Kishan,India,Wicket Keeper Batter,61,Capped,Mumbai Indians,152500000,1525,MI,"GL, MI"
+27,Jonny Bairstow,England,Wicket Keeper Batter,28,Capped,Punjab Kings,67500000,675,SRH,SRH
+28,Dinesh Karthik,India,Wicket Keeper Batter,213,Capped,Royal Challengers Bangalore,55000000,550,KKR,"DC, PBKS, MI, RCB, GL, KKR"
+29,Nicholas Pooran,West Indies,Wicket Keeper Batter,33,Capped,Sunrisers Hyderabad,107500000,1075,PBKS,"MI, PBKS"
+30,T. Natarajan,India,Bowler,24,Capped,Sunrisers Hyderabad,40000000,400,SRH,"PBKS, SRH"
+31,Deepak Chahar,India,Bowler,63,Capped,Chennai Super Kings,140000000,1400,CSK,"RPS, CSK"
+32,Prasidh Krishna,India,Bowler,34,Capped,Rajasthan Royals,100000000,1000,KKR,KKR
+33,Lockie Ferguson,New Zealand,Bowler,22,Capped,Gujarat Titans,100000000,1000,KKR,"RPS, KKR"
+34,Josh Hazlewood,Australia,Bowler,12,Capped,Royal Challengers Bangalore,77500000,775,CSK,"MI, CSK"
+35,Mark Wood,England,Bowler,1,Capped,Lucknow Super Giants,75000000,750,,CSK
+36,Bhuvneshwar Kumar,India,Bowler,132,Capped,Sunrisers Hyderabad,42000000,420,SRH,"RCB, PWI, SRH"
+37,Shardul Thakur,India,Bowler,61,Capped,Delhi Capitals,107500000,1075,CSK,"PBKS, RPS, CSK"
+38,Mustafizur Rahman,Bangladesh,Bowler,38,Capped,Delhi Capitals,20000000,200,RR,"SRH, MI, RR"
+39,Kuldeep Yadav,India,Bowler,45,Capped,Delhi Capitals,20000000,200,KKR,"MI, KKR"
+40,Rahul Chahar,India,Bowler,42,Capped,Punjab Kings,52500000,525,MI,"RPS, MI"
+41,Yuzvendra Chahal,India,Bowler,114,Capped,Rajasthan Royals,65000000,650,RCB,"MI, RCB"
+42,Priyam Garg,India,Batter,19,Uncapped,Sunrisers Hyderabad,2000000,20,SRH,SRH
+43,Abhinav Manohar Sadarangani,India,Batter,,Uncapped,Gujarat Titans,26000000,260,,
+44,Dewald Brevis,South Africa,Batter,,Uncapped,Mumbai Indians,30000000,300,,
+45,Ashwin Hebbar,India,Batter,,Uncapped,Delhi Capitals,2000000,20,,
+46,Rahul Tripathi,India,Batter,62,Uncapped,Sunrisers Hyderabad,85000000,850,KKR,"RPS, RR, KKR"
+47,Riyan Parag,India,All Rounder,30,Uncapped,Rajasthan Royals,38000000,380,RR,RR
+48,Abhishek Sharma,India,All Rounder,22,Uncapped,Sunrisers Hyderabad,65000000,650,SRH,"DC, SRH"
+49,Sarfaraz Khan,India,All Rounder,40,Uncapped,Delhi Capitals,2000000,20,PBKS,"RCB, PBKS"
+50,M. Shahrukh Khan,India,All Rounder,11,Uncapped,Punjab Kings,90000000,900,PBKS,PBKS
+51,Shivam Mavi,India,All Rounder,26,Uncapped,Kolkata Knight Riders,72500000,725,KKR,KKR
+52,Rahul Tewatia,India,All Rounder,48,Uncapped,Gujarat Titans,90000000,900,RR,"PBKS, DC, RR"
+53,Kamlesh Nagarkoti,India,All Rounder,11,Uncapped,Delhi Capitals,11000000,110,KKR,KKR
+54,Harpreet Brar,India,All Rounder,10,Uncapped,Punjab Kings,38000000,380,PBKS,PBKS
+55,Shahbaz Ahmed,India,All Rounder,13,Uncapped,Royal Challengers Bangalore,24000000,240,RCB,RCB
+56,K. S. Bharat,India,Wicket Keeper Batter,8,Uncapped,Delhi Capitals,20000000,200,RCB,"DC, RCB"
+57,Anuj Rawat,India,Wicket Keeper Batter,2,Uncapped,Royal Challengers Bangalore,34000000,340,RR,RR
+58,Prabhsimran Singh,India,Wicket Keeper Batter,5,Uncapped,Punjab Kings,6000000,60,PBKS,PBKS
+59,Sheldon Jackson,India,Wicket Keeper Batter,4,Uncapped,Kolkata Knight Riders,6000000,60,KKR,"RCB, KKR"
+60,Jitesh Sharma,India,Wicket Keeper Batter,,Uncapped,Punjab Kings,2000000,20,,MI
+61,Basil Thampi,India,Bowler,20,Uncapped,Mumbai Indians,3000000,30,SRH,"GL, SRH"
+62,Kartik Tyagi,India,Bowler,14,Uncapped,Sunrisers Hyderabad,40000000,400,RR,RR
+63,Akash Deep,India,Bowler,,Uncapped,Royal Challengers Bangalore,2000000,20,RCB,RCB
+64,KM Asif,India,Bowler,3,Uncapped,Chennai Super Kings,2000000,20,CSK,CSK
+65,Avesh Khan,India,Bowler,25,Uncapped,Lucknow Super Giants,100000000,1000,DC,"RCB, DC"
+66,Ishan Porel,India,Bowler,1,Uncapped,Punjab Kings,2500000,25,PBKS,PBKS
+67,Tushar Deshpande,India,Bowler,5,Uncapped,Chennai Super Kings,2000000,20,,DC
+68,Ankit Rajpoot,India,Bowler,29,Uncapped,Lucknow Super Giants,5000000,50,,"CSK, KKR, PBKS, RR"
+69,Noor Ahmad,Afghanistan,Bowler,,Uncapped,Gujarat Titans,3000000,30,,
+70,Murugan Ashwin,India,Bowler,34,Uncapped,Mumbai Indians,16000000,160,PBKS,"RPS, DC, RCB, PBKS"
+71,K. C. Cariappa,India,Bowler,11,Uncapped,Rajasthan Royals,3000000,30,RR,"KKR, PBKS, RR"
+72,Shreyas Gopal,India,Bowler,48,Uncapped,Sunrisers Hyderabad,7500000,75,RR,"MI, RR"
+73,Jagadeesha Suchith,India,Bowler,17,Uncapped,Sunrisers Hyderabad,2000000,20,SRH,"MI, DC, PBKS, SRH"
+74,Ravisrinivasan Sai Kishore,India,Bowler,,Uncapped,Gujarat Titans,30000000,300,CSK,CSK
+75,Aiden Markram,South Africa,Batter,6,Capped,Sunrisers Hyderabad,26000000,260,PBKS,PBKS
+76,Ajinkya Rahane,India,Batter,151,Capped,Kolkata Knight Riders,10000000,100,DC,"MI, RPS, RR, DC"
+77,Mandeep Singh,India,Batter,105,Capped,Delhi Capitals,11000000,110,PBKS,"RCB, KKR, PBKS"
+78,Liam Livingstone,England,All Rounder,9,Capped,Punjab Kings,115000000,1150,RR,RR
+79,Dominic Drakes,West Indies,All Rounder,,Capped,Gujarat Titans,11000000,110,CSK,CSK
+80,Jayant Yadav,India,All Rounder,19,Capped,Gujarat Titans,17000000,170,MI,"DC, MI"
+81,Vijay Shankar,India,All Rounder,47,Capped,Gujarat Titans,14000000,140,SRH,"CSK, DC, SRH"
+82,Odean Smith,West Indies,All Rounder,,Capped,Punjab Kings,60000000,600,,
+83,Marco Jansen,South Africa,All Rounder,2,Capped,Sunrisers Hyderabad,42000000,420,MI,MI
+84,Shivam Dube,India,All Rounder,24,Capped,Chennai Super Kings,40000000,400,RR,"RCB, RR"
+85,Krishnappa Gowtham,India,All Rounder,24,Capped,Lucknow Super Giants,9000000,90,CSK,"MI, RR, PBKS, CSK"
+86,Khaleel Ahmed,India,Bowler,24,Capped,Delhi Capitals,52500000,525,SRH,"DC, SRH"
+87,Dushmantha Chameera,Sri Lanka,Bowler,,Capped,Lucknow Super Giants,20000000,200,RCB,"RR, RCB"
+88,Chetan Sakariya,India,Bowler,14,Capped,Delhi Capitals,42000000,420,RR,RR
+89,Sandeep Sharma,India,Bowler,99,Capped,Punjab Kings,5000000,50,SRH,"PBKS, SRH"
+90,Navdeep Saini,India,Bowler,28,Capped,Rajasthan Royals,26000000,260,RCB,"DC, RCB"
+91,Jaydev Unadkat,India,Bowler,86,Capped,Mumbai Indians,13000000,130,RR,"KKR, DC, RCB, RPS, RR"
+92,Mayank Markande,India,Bowler,18,Capped,Mumbai Indians,6500000,65,RR,"MI, RR"
+93,Shahbaz Nadeem,India,Bowler,72,Capped,Lucknow Super Giants,5000000,50,SRH,"DC, SRH"
+94,Maheesh Theekshana,Sri Lanka,Bowler,,Capped,Chennai Super Kings,7000000,70,,
+95,Rinku Singh,India,Batter,11,Uncapped,Kolkata Knight Riders,5500000,55,KKR,"PBKS, KKR"
+96,Manan Vohra,India,Batter,53,Uncapped,Lucknow Super Giants,2000000,20,RR,"PBKS, RCB, RR"
+97,Lalit Yadav,India,All Rounder,7,Uncapped,Delhi Capitals,6500000,65,DC,DC
+98,Ripal Patel,India,All Rounder,2,Uncapped,Delhi Capitals,2000000,20,DC,DC
+99,Yash Dhull,India,All Rounder,,Uncapped,Delhi Capitals,5000000,50,,
+100,Tilak Varma,India,All Rounder,,Uncapped,Mumbai Indians,17000000,170,,
+101,Mahipal Lomror,India,All Rounder,11,Uncapped,Royal Challengers Bangalore,9500000,95,RR,"DC, RR"
+102,Anukul Roy,India,All Rounder,1,Uncapped,Kolkata Knight Riders,2000000,20,MI,MI
+103,Darshan Nalkande,India,All Rounder,,Uncapped,Gujarat Titans,2000000,20,PBKS,PBKS
+104,R. Sanjay Yadav,India,All Rounder,,Uncapped,Mumbai Indians,5000000,50,,"KKR, SRH"
+105,Raj Bawa,India,All Rounder,,Uncapped,Punjab Kings,20000000,200,,
+106,Rajvardhan Hangargekar,India,All Rounder,,Uncapped,Chennai Super Kings,15000000,150,,
+107,Yash Dayal,India,Bowler,,Uncapped,Gujarat Titans,32000000,320,,
+108,Simarjeet Singh,India,Bowler,,Uncapped,Chennai Super Kings,2000000,20,MI,MI
+109,Finn Allen,New Zealand,Batter,,Capped,Royal Challengers Bangalore,8000000,80,RCB,RCB
+110,Devon Conway,New Zealand,Batter,,Capped,Chennai Super Kings,10000000,100,,
+111,Rovman Powell,West Indies,Batter,,Capped,Delhi Capitals,28000000,280,,KKR
+112,Jofra Archer,England,All Rounder,35,Capped,Mumbai Indians,80000000,800,RR,RR
+113,Rishi Dhawan,India,All Rounder,26,Capped,Punjab Kings,5500000,55,,"MI, PBKS, KKR"
+114,Dwaine Pretorius,South Africa,All Rounder,,Capped,Chennai Super Kings,5000000,50,,
+115,Sherfane Rutherford,West Indies,All Rounder,7,Capped,Royal Challengers Bangalore,10000000,100,SRH,"DC, MI, SRH"
+116,Daniel Sams,Australia,All Rounder,5,Capped,Mumbai Indians,26000000,260,RCB,"DC, RCB"
+117,Mitchell Santner,New Zealand,All Rounder,6,Capped,Chennai Super Kings,19000000,190,CSK,CSK
+118,Romario Shepherd,West Indies,All Rounder,,Capped,Sunrisers Hyderabad,77500000,775,,
+119,Jason Behrendorff,Australia,Bowler,5,Capped,Royal Challengers Bangalore,7500000,75,CSK,"MI, CSK"
+120,Obed McCoy,West Indies,Bowler,,Capped,Rajasthan Royals,7500000,75,,
+121,Tymal Mills,England,Bowler,5,Capped,Mumbai Indians,15000000,150,,RCB
+122,Adam Milne,New Zealand,Bowler,9,Capped,Chennai Super Kings,19000000,190,MI,"RCB, MI"
+123,Subhranshu Senapati,India,Batter,,Uncapped,Chennai Super Kings,2000000,20,,
+124,Tim David,Australia,Batter,1,Capped,Mumbai Indians,82500000,825,RCB,RCB
+125,Pravin Dubey,India,All Rounder,3,Uncapped,Delhi Capitals,5000000,50,DC,"RCB, DC"
+126,Prerak Mankad,India,All Rounder,,Uncapped,Punjab Kings,2000000,20,,
+127,Suyash Prabhudessai,India,All Rounder,,Uncapped,Royal Challengers Bangalore,3000000,30,RCB,RCB
+128,Vaibhav Arora,India,Bowler,,Uncapped,Punjab Kings,20000000,200,KKR,KKR
+129,Mukesh Choudhary,India,Bowler,,Uncapped,Chennai Super Kings,2000000,20,,
+130,Rasikh Salam Dar,India,Bowler,1,Uncapped,Kolkata Knight Riders,2000000,20,,MI
+131,Mohsin Khan,India,Bowler,,Uncapped,Lucknow Super Giants,2000000,20,MI,MI
+132,Chama Milind,India,Bowler,,Uncapped,Royal Challengers Bangalore,2500000,25,,"SRH, DC"
+133,Prashant Solanki,India,Bowler,,Uncapped,Chennai Super Kings,12000000,120,,
+134,Sean Abbott,Australia,All Rounder,2,Capped,Sunrisers Hyderabad,24000000,240,,RCB
+135,Alzarri Joseph,West Indies,Bowler,3,Capped,Gujarat Titans,24000000,240,,MI
+136,Riley Meredith,Australia,Bowler,5,Capped,Mumbai Indians,10000000,100,PBKS,PBKS
+137,Ayush Badoni,India,Batter,,Uncapped,Lucknow Super Giants,2000000,20,,
+138,Aneeshwar Gautam,India,All Rounder,,Uncapped,Royal Challengers Bangalore,10000000,100,,
+139,Baba Indrajith,India,Wicket Keeper Batter,,Uncapped,Kolkata Knight Riders,2000000,20,,
+140,Chamika Karunaratne,Sri Lanka,All Rounder,,Capped,Kolkata Knight Riders,5000000,50,,
+141,Ravikumar Samarth,India,Batter,,Uncapped,Sunrisers Hyderabad,2000000,20,,
+142,Abhijeet Tomar,India,Batter,,Uncapped,Kolkata Knight Riders,4000000,40,,
+143,Pradeep Sangwan,India,Bowler,39,Uncapped,Gujarat Titans,2000000,20,,"DC, KKR, GL, MI"
+144,Writtick Chatterjee,India,All Rounder,,Uncapped,Punjab Kings,2000000,20,,
+145,Pratham Singh,India,Batter,,Uncapped,Kolkata Knight Riders,2000000,20,,GL
+146,Shashank Singh,India,All Rounder,,Uncapped,Sunrisers Hyderabad,2000000,20,,"DC, RR"
+147,Kyle Mayers,West Indies,All Rounder,,Capped,Lucknow Super Giants,5000000,50,,
+148,Karan Sharma,India,All Rounder,,Uncapped,Lucknow Super Giants,2000000,20,,
+149,Baltej Singh,India,Bowler,,Uncapped,Punjab Kings,2000000,20,,
+150,Saurabh Dubey,India,Bowler,,Uncapped,Sunrisers Hyderabad,2000000,20,,
+151,Mohammed Arshad Khan,India,Bowler,,Uncapped,Mumbai Indians,2000000,20,,
+152,Ansh Patel,India,All Rounder,,Uncapped,Punjab Kings,2000000,20,,
+153,Ashok Sharma,India,Bowler,,Uncapped,Kolkata Knight Riders,5000000,50,,
+154,Anunay Singh,India,Bowler,,Uncapped,Rajasthan Royals,2000000,20,,
+155,David Miller,South Africa,Batter,89,Capped,Gujarat Titans,30000000,300,RR,"PBKS, RR"
+156,Sam Billings,England,Wicket Keeper Batter,22,Capped,Kolkata Knight Riders,20000000,200,DC,"CSK, DC"
+157,Wriddhiman Saha,India,Wicket Keeper Batter,133,Capped,Gujarat Titans,19000000,190,SRH,"KKR, CSK, PBKS, SRH"
+158,Matthew Wade,Australia,Wicket Keeper Batter,3,Capped,Gujarat Titans,24000000,240,,DC
+159,C. Hari Nishanth,India,Batter,,Uncapped,Chennai Super Kings,2000000,20,CSK,CSK
+160,Anmolpreet Singh,India,Batter,1,Uncapped,Mumbai Indians,2000000,20,MI,MI
+161,Narayan Jagadeesan,India,Wicket Keeper Batter,5,Uncapped,Chennai Super Kings,2000000,20,CSK,CSK
+162,Vishnu Vinod,India,Wicket Keeper Batter,3,Uncapped,Sunrisers Hyderabad,5000000,50,DC,"RCB, DC"
+163,Chris Jordan,England,Bowler,24,Capped,Chennai Super Kings,36000000,360,PBKS,"RCB, SRH, PBKS"
+164,Lungi Ngidi,South Africa,Bowler,14,Capped,Delhi Capitals,5000000,50,CSK,CSK
+165,Karn Sharma,India,Bowler,68,Capped,Royal Challengers Bangalore,5000000,50,CSK,"RCB, SRH, MI, CSK"
+166,Kuldeep Sen,India,Bowler,,Uncapped,Rajasthan Royals,2000000,20,,
+167,Alex Hales,England,Batter,6,Capped,Kolkata Knight Riders,15000000,150,,"MI, SRH"
+168,Evin Lewis,West Indies,Batter,21,Capped,Lucknow Super Giants,20000000,200,RR,"MI, RR"
+169,Karun Nair,India,Batter,73,Capped,Rajasthan Royals,14000000,140,KKR,"RCB, RR, DC, PBKS, KKR"
+170,Glenn Phillips,New Zealand,Wicket Keeper Batter,3,Capped,Sunrisers Hyderabad,15000000,150,RR,RR
+171,Tim Seifert,New Zealand,Wicket Keeper Batter,1,Capped,Delhi Capitals,5000000,50,KKR,KKR
+172,Nathan Ellis,Australia,Bowler,3,Capped,Punjab Kings,7500000,75,PBKS,PBKS
+173,Fazalhaq Farooqi,Afghanistan,Bowler,,Capped,Sunrisers Hyderabad,5000000,50,,
+174,Ramandeep Singh,India,Batter,,Uncapped,Mumbai Indians,2000000,20,,
+175,Atharva Taide,India,All Rounder,,Uncapped,Punjab Kings,2000000,20,,
+176,Dhruv Jurel,India,Wicket Keeper Batter,,Uncapped,Rajasthan Royals,2000000,20,,
+177,Mayank Yadav,India,Bowler,,Uncapped,Lucknow Super Giants,2000000,20,,
+178,Tejas Baroka,India,Bowler,1,Uncapped,Rajasthan Royals,2000000,20,,GL
+179,Bhanuka Rajapaksa,Sri Lanka,Batter,,Capped,Punjab Kings,5000000,50,,
+180,Gurkeerat Singh,India,Batter,41,Capped,Gujarat Titans,5000000,50,KKR,"PBKS, DC, RCB, KKR"
+181,Tim Southee,New Zealand,Bowler,43,Capped,Kolkata Knight Riders,15000000,150,KKR,"CSK, RR, MI, RCB, KKR"
+182,Rahul Buddhi,India,Batter,,Uncapped,Mumbai Indians,2000000,20,,
+183,Benny Howell,England,All Rounder,,Uncapped,Punjab Kings,4000000,40,,
+184,Kuldip Yadav,India,Bowler,1,Uncapped,Rajasthan Royals,2000000,20,RR,RR
+185,Varun Aaron,India,Bowler,50,Capped,Gujarat Titans,5000000,50,,"DC, RCB, PBKS, RR"
+186,Ramesh Kumar,India,Bowler,,Uncapped,Kolkata Knight Riders,2000000,20,,
+187,Hrithik Shokeen,India,All Rounder,,Uncapped,Mumbai Indians,2000000,20,,
+188,K. Bhagath Varma,India,All Rounder,,Uncapped,Chennai Super Kings,2000000,20,CSK,CSK
+189,Arjun Tendulkar,India,All Rounder,,Uncapped,Mumbai Indians,3000000,30,MI,MI
+190,Shubham Garhwal,India,All Rounder,,Uncapped,Rajasthan Royals,2000000,20,,
+191,Mohammad Nabi,Afghanistan,All Rounder,17,Capped,Kolkata Knight Riders,10000000,100,SRH,SRH
+192,Umesh Yadav,India,Bowler,121,Capped,Kolkata Knight Riders,20000000,200,DC,"DC, KKR, RCB"
+193,James Neesham,New Zealand,All Rounder,12,Capped,Rajasthan Royals,15000000,150,MI,"DC, KKR, PBKS, MI"
+194,Nathan Coulter-Nile,Australia,All Rounder,38,Capped,Rajasthan Royals,20000000,200,MI,"DC, KKR, RCB, MI"
+195,Vicky Ostwal,India,Bowler,,Uncapped,Delhi Capitals,2000000,20,,
+196,Rassie van der Dussen,South Africa,Batter,,Capped,Rajasthan Royals,10000000,100,,
+197,Daryl Mitchell,New Zealand,All Rounder,,Capped,Rajasthan Royals,7500000,75,,
+198,Siddharth Kaul,India,Bowler,54,Capped,Royal Challengers Bangalore,7500000,75,SRH,"KKR, DC, SRH"
+199,B. Sai Sudharshan,India,Batter,,Uncapped,Gujarat Titans,2000000,20,,
+200,Aryan Juyal,India,Wicket Keeper Batter,,Uncapped,Mumbai Indians,2000000,20,,
+201,Luvnith Sisodia,India,Wicket Keeper Batter,,Uncapped,Royal Challengers Bangalore,2000000,20,,
+202,Fabian Allen,West Indies,All Rounder,4,Capped,Mumbai Indians,7500000,75,PBKS,"SRH, PBKS"
+203,David Willey,England,All Rounder,3,Capped,Royal Challengers Bangalore,20000000,200,,CSK
+204,Aman Khan,India,All Rounder,,Uncapped,Kolkata Knight Riders,2000000,20,,
