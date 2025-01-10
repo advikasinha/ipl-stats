@@ -492,12 +492,15 @@ def main():
                     auction_strategy['Name']
                 )
                 
-                selected_type = auction_strategy[
-                    auction_strategy['Name'] == selected_player
-                ]['Type'].iloc[0]
-                
-                st.info(f"Finding replacements for: {selected_player} ({selected_type})")
-            
+                filtered_players = auction_strategy[auction_strategy['Name'] == selected_player]
+
+                if not filtered_players.empty:
+                    selected_type = filtered_players['Type'].iloc[0]
+                    st.info(f"Finding replacements for: {selected_player} ({selected_type})")
+                else:
+                    st.warning(f"No data available for the selected player: {selected_player}")
+
+
             if selected_player:
                 player_data = auction_strategy[
                     auction_strategy['Name'] == selected_player
@@ -592,4 +595,4 @@ def main():
                     st.warning(f"⚠️ Need at least {planner.min_players - len(projected_team)} more players")
 
 if __name__ == "__main__":
-    main()
+    main()  
