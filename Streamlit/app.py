@@ -59,9 +59,9 @@ class IPLTeamAnalyzer:
             ].nlargest(count, 'composite_score')
             
             for _, player in role_players.iterrows():
-                if remaining_budget >= player['ValueInCR']:
+                if remaining_budget >= player['ValueinCR']:
                     selected_players.append(player)
-                    remaining_budget -= player['ValueInCR']
+                    remaining_budget -= player['ValueinCR']
                     available_players = available_players[
                         available_players['Name'] != player['Name']
                     ]
@@ -73,9 +73,9 @@ class IPLTeamAnalyzer:
             not available_players.empty
         ):
             best_player = available_players.nlargest(1, 'composite_score').iloc[0]
-            if best_player['ValueInCR'] <= remaining_budget:
+            if best_player['ValueinCR'] <= remaining_budget:
                 selected_players.append(best_player)
-                remaining_budget -= best_player['ValueInCR']
+                remaining_budget -= best_player['ValueinCR']
                 available_players = available_players[
                     available_players['Name'] != best_player['Name']
                 ]
@@ -97,7 +97,7 @@ def create_network_graph(data: pd.DataFrame):
         G.add_node(player['Name'], 
                   type='player',
                   team=player['Team'],
-                  value=player.get('ValueInCR', 1))
+                  value=player.get('ValueinCR', 1))
     
     # Add team nodes and connect players
     teams = data['Team'].unique()
@@ -221,7 +221,7 @@ def main():
             with col1:
                 st.metric("Team", player_data['Team'])
                 st.metric("Type", player_data['Type'])
-                st.metric("Value (Crores)", f"₹{player_data['ValueInCR']}")
+                st.metric("Value (Crores)", f"₹{player_data['ValueinCR']}")
             
             with col2:
                 st.metric("Batting Average", f"{player_data.get('BattingAvg', 0):.2f}")
