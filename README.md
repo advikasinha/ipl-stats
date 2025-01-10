@@ -7,6 +7,7 @@ TBD:
 - whatever data you dont have use an LLM to tell
 - unified dataset
 - player graph nodes
+- apply constraints for purchase of players
 
 DONE:
 
