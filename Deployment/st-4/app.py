@@ -17,6 +17,28 @@ class EnhancedIPLTeamPlanner:
         self.current_budget = self.total_budget
         self.current_retention_budget = self.retention_budget
 
+        # Initialize session state
+        if 'current_budget' not in st.session_state:
+            st.session_state.current_budget = self.total_budget
+        if 'current_retention_budget' not in st.session_state:
+            st.session_state.current_retention_budget = self.retention_budget
+        if 'selected_players' not in st.session_state:
+            st.session_state.selected_players = []
+        if 'player_counts' not in st.session_state:
+            st.session_state.player_counts = {
+                'Batsman': 0,
+                'Bowler': 0,
+                'Wicket-Keeper': 0,
+                'All-rounder': 0
+            }
+        if 'max_players_by_type' not in st.session_state:
+            st.session_state.max_players_by_type = {
+                'Batsman': 7,
+                'Bowler': 7,
+                'Wicket-Keeper': 3,
+                'All-rounder': 8
+            }
+
     def calculate_player_score(self, row: pd.Series) -> float:
         """Enhanced player scoring incorporating more metrics"""
         # Batting metrics
@@ -64,6 +86,7 @@ class EnhancedIPLTeamPlanner:
             final_score = (batting_score * 0.4 + bowling_score * 0.4 + fielding_score * 0.2) * experience_factor
             
         return final_score
+    
 
     def suggest_retentions(self, current_team: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """
@@ -83,6 +106,71 @@ class EnhancedIPLTeamPlanner:
         top_overseas_players = overseas_players.nlargest(3, 'performance_score')[['Name', 'Type', 'performance_score',"National Side", 'Team', 'estimated_price']]
         
         return top_indian_players, top_overseas_players
+    
+    def clean_player_type(self, player_type: str) -> str:
+        """Standardize player type strings"""
+        return player_type.strip()
+
+    def can_add_player_type(self, player_type: str) -> bool:
+        """Check if another player of this type can be added"""
+        clean_type = self.clean_player_type(player_type)
+        return st.session_state.player_counts[clean_type] < st.session_state.max_players_by_type[clean_type]
+
+    def update_team_composition(self, player: dict, adding: bool = True):
+        """Update team composition counters"""
+        player_type = self.clean_player_type(player['Type'])
+        if adding:
+            if not self.can_add_player_type(player_type):
+                st.error(f"Maximum number of {player_type}s reached!")
+                return False
+            st.session_state.player_counts[player_type] += 1
+        else:
+            st.session_state.player_counts[player_type] -= 1
+        return True
+    
+    def update_budgets_and_composition(self, player: dict, is_retention: bool = False):
+        """Update both budgets and team composition"""
+        if player['Select']:  # Player is being selected
+            if not self.can_add_player_type(player['Type']):
+                return False
+                
+            if is_retention:
+                if st.session_state.current_retention_budget >= player['estimated_price']:
+                    st.session_state.current_retention_budget -= player['estimated_price']
+                else:
+                    st.error(f"Not enough retention budget for {player['Name']}")
+                    return False
+            
+            if st.session_state.current_budget >= player['estimated_price']:
+                if self.update_team_composition(player, adding=True):
+                    st.session_state.current_budget -= player['estimated_price']
+                    st.session_state.selected_players.append({
+                        'name': player['Name'],
+                        'type': player['Type'],
+                        'price': player['estimated_price'],
+                        'is_retention': is_retention
+                    })
+                    st.experimental_rerun()
+                    return True
+            else:
+                st.error(f"Not enough budget for {player['Name']}")
+                return False
+        else:  # Player is being deselected
+            for i, selected in enumerate(st.session_state.selected_players):
+                if selected['name'] == player['Name']:
+                    if selected['is_retention']:
+                        st.session_state.current_retention_budget += player['estimated_price']
+                    st.session_state.current_budget += player['estimated_price']
+                    self.update_team_composition(selected, adding=False)
+                    st.session_state.selected_players.pop(i)
+                    st.experimental_rerun()
+                    break
+            return True
+
+    def filter_available_players(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Filter players based on team composition limits"""
+        return df[df['Type'].apply(lambda x: self.can_add_player_type(x))].copy()
+    
     
     def calculate_similarity_score(self, player1: pd.Series, player2: pd.Series) -> float:
         """Calculate similarity between two players based on performance, batting and Bowling"""
@@ -144,9 +232,8 @@ class EnhancedIPLTeamPlanner:
         )
         
         display_columns = [
-            'Name', 'Type', 'performance_score', 'similarity_score', 'Team',
+            'Name', 'Type','Batting Style', 'Bowling', 'performance_score', 'Team', 'National Side',
             'BattingS/R', 'Wickets', 'BattingAVG', 'BowlingAVG', 'EconomyRate',
-            'Batting Style', 'Bowling'
         ]
         
         return available_players.nlargest(5, 'similarity_score')[display_columns]
@@ -156,11 +243,6 @@ if __name__ == "__main__":
     # st.set_page_config(layout='wide')
     st.title("Enhanced IPL Franchise Planning System")
 
-    if 'current_budget' not in st.session_state:
-        st.session_state.current_budget = 90.0
-    if 'current_retention_budget' not in st.session_state:
-        st.session_state.current_retention_budget = 42.0
-
     uploaded_file = st.file_uploader("Upload IPL dataset (CSV)", type=['csv'])
 
     if uploaded_file is not None:
@@ -169,18 +251,36 @@ if __name__ == "__main__":
 
         # Sidebar for budget tracking
         st.sidebar.header("Budget Tracker")
-        st.sidebar.metric("Total Budget Remaining", 
-                         f"₹{st.session_state.current_budget:.2f}Cr",
-                         f"₹{90.0 - st.session_state.current_budget:.2f}Cr used")
-        st.sidebar.metric("Retention Budget Remaining", 
-                         f"₹{st.session_state.current_retention_budget:.2f}Cr",
-                         f"₹{42.0 - st.session_state.current_retention_budget:.2f}Cr used")
+        st.sidebar.metric(
+            "Total Budget Remaining", 
+            f"₹{st.session_state.current_budget:.2f}Cr",
+            f"₹{90.0 - st.session_state.current_budget:.2f}Cr used"
+        )
+        st.sidebar.metric(
+            "Retention Budget Remaining", 
+            f"₹{st.session_state.current_retention_budget:.2f}Cr",
+            f"₹{42.0 - st.session_state.current_retention_budget:.2f}Cr used"
+        )
 
-        # Franchise Selection
+        # Team Composition Display
+        st.sidebar.header("Team Composition")
+        for player_type in st.session_state.player_counts:
+            current = st.session_state.player_counts[player_type]
+            maximum = st.session_state.max_players_by_type[player_type]
+            st.sidebar.progress(current / maximum)
+            st.sidebar.text(f"{player_type}: {current}/{maximum}")
+        
+        # Selected Players Display
+        st.sidebar.header("Selected Players")
+        if st.session_state.selected_players:
+            selected_df = pd.DataFrame(st.session_state.selected_players)
+            st.sidebar.dataframe(selected_df, hide_index=True)
+
+
         franchise = st.selectbox("Select Your Franchise", sorted(data['Team'].unique()))
         
         # Team Analysis Dashboard
-        st.header("Current Team Analysis:")
+        st.header("Current Team Analysis")
         team_data = data[data['Team'] == franchise]
         
         # Team composition visualization
@@ -195,7 +295,7 @@ if __name__ == "__main__":
                 color_discrete_sequence=px.colors.cyclical.Edge
             )
             st.plotly_chart(fig_composition)
-            
+        
         with col2:
             # Experience level distribution
             team_data['Experience_Level'] = pd.cut(
@@ -210,60 +310,56 @@ if __name__ == "__main__":
                 color_discrete_sequence=px.colors.cyclical.Edge
             )
             st.plotly_chart(fig_experience)
-
+        
         # Retention Suggestions
         st.header("Retention Suggestions")
         top_indian_batsmen, top_overseas_players = planner.suggest_retentions(franchise)
         
-        cb_in=[False, False, False, False, False]
-        st.subheader(f"Top Indian Players for {franchise}")
-        ret_ind_df=pd.DataFrame(top_indian_batsmen)
-        ret_ind_df['Retain']=cb_in
-        st.data_editor(ret_ind_df,
-        column_config={
-        "Retain": st.column_config.CheckboxColumn(
-            "Retain?",
-            help="Choose players you want to retain",
-            default=False,
-        ),
-        "estimated_price": st.column_config.NumberColumn(
-                        "Estimated Price (Cr)",
-                        format="₹%.2f"
-                    )
-                },
-                hide_index=True
-            )
+                # Add 'Select' and 'estimated_price' columns for top Indian and overseas players
+        if 'Select' not in top_indian_batsmen.columns:
+            top_indian_batsmen['Select'] = False
 
-        cb_intl=[False, False, False]
+        if 'Select' not in top_overseas_players.columns:
+            top_overseas_players['Select'] = False
+
+        st.subheader(f"Top Indian Players for {franchise}")
+        edited_indian = st.data_editor(
+            top_indian_batsmen,
+            column_config={
+                "Select": st.column_config.CheckboxColumn(
+                    "Select",
+                    help="Select player for retention",
+                    default=False
+                ),
+                "estimated_price": st.column_config.NumberColumn(
+                    "Estimated Price (Cr)",
+                    format="₹%.2f"
+                )
+            },
+            hide_index=True
+        )
+
         st.subheader(f"Top Overseas Players for {franchise}")
-        ret_intl_df=pd.DataFrame(top_overseas_players)
-        ret_intl_df['Retain']=cb_intl
-        st.data_editor(ret_intl_df,
-        column_config={
-        "Retain": st.column_config.CheckboxColumn(
-            "Select",
-            help="Choose players you want to retain",
-            default=False,
-        ),"estimated_price": st.column_config.NumberColumn(
-                        "Estimated Price (Cr)",
-                        format="₹%.2f"
-                    )
-                },
-                hide_index=True
-            )
+        edited_overseas = st.data_editor(
+            top_overseas_players,
+            column_config={
+                "Select": st.column_config.CheckboxColumn(
+                    "Select",
+                    help="Select player for retention",
+                    default=False
+                ),
+                "estimated_price": st.column_config.NumberColumn(
+                    "Estimated Price (Cr)",
+                    format="₹%.2f"
+                )
+            },
+            hide_index=True
+        )
 
         # High and Medium Priority Players
         st.header("Target Players")
         high_priority, medium_priority = planner.categorize_priority()
-
-        def update_budgets(df):
-            selected_players = df[df['Select']].copy()
-            if not selected_players.empty:
-                total_cost = selected_players['estimated_price'].sum()
-                st.session_state.current_budget -= total_cost
-                st.session_state.current_retention_budget -= total_cost
-                st.experimental_rerun()
-
+        
         tabs = st.tabs(["High Priority", "Medium Priority"])
         with tabs[0]:
             st.subheader("High Priority Players")
@@ -272,7 +368,7 @@ if __name__ == "__main__":
                 column_config={
                     "Select": st.column_config.CheckboxColumn(
                         "Select",
-                        help="Select player for retention",
+                        help="Select player",
                         default=False
                     ),
                     "estimated_price": st.column_config.NumberColumn(
@@ -282,9 +378,7 @@ if __name__ == "__main__":
                 },
                 hide_index=True
             )
-            if st.button("Update Budget (High Priority)"):
-                update_budgets(edited_high)
-
+        
         with tabs[1]:
             st.subheader("Medium Priority Players")
             edited_medium = st.data_editor(
@@ -292,7 +386,7 @@ if __name__ == "__main__":
                 column_config={
                     "Select": st.column_config.CheckboxColumn(
                         "Select",
-                        help="Select player for retention",
+                        help="Select player",
                         default=False
                     ),
                     "estimated_price": st.column_config.NumberColumn(
@@ -302,17 +396,13 @@ if __name__ == "__main__":
                 },
                 hide_index=True
             )
-            if st.button("Update Budget (Medium Priority)"):
-                update_budgets(edited_medium)
-
+        
         # Enhanced Replacement Analysis
         st.header("Player Replacement Analysis")
         selected_player = st.selectbox("Select Player to Find Replacements", data['Name'])
-
+        
         if selected_player:
             player_data = data[data['Name'] == selected_player].iloc[0]
-            player_data['performance_score'] = planner.calculate_player_score(player_data)
             replacements = planner.get_player_replacements(player_data)
             st.subheader(f"Potential Replacements for {selected_player}")
             st.dataframe(replacements)
-
