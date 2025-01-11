@@ -63,37 +63,165 @@ class EnhancedIPLTeamPlanner:
             
         return final_score
 
-    def suggest_retentions(self, current_team: str) -> pd.DataFrame:
-        """Enhanced retention strategy considering pre-auction status"""
-        team_players = self.data[self.data['Team'] == current_team].copy()
+    # def suggest_retentions(self, current_team: str) -> pd.DataFrame:
+    #     """Enhanced retention strategy considering pre-auction status"""
+    #     team_players = self.data[self.data['Team'] == current_team].copy()
         
-        # Consider pre-auction status
-        previously_retained = team_players[team_players['Pre-Auction'] == 'Retained']
+    #     # Consider pre-auction status
+    #     previously_retained = team_players[team_players['Pre-Auction'] == 'Retained']
+        
+    #     # Calculate performance scores
+    #     team_players['performance_score'] = team_players.apply(self.calculate_player_score, axis=1)
+        
+    #     # Separate Indian and overseas players
+    #     indian_players = team_players[team_players['National Side'] == 'India']
+    #     overseas_players = team_players[team_players['National Side'] != 'India']
+        
+    #     # Get top players considering both performance and previous retention status
+    #     def get_top_players(players_df: pd.DataFrame, n: int) -> pd.DataFrame:
+    #         # Boost score for previously retained players
+    #         players_df = players_df.copy()
+    #         players_df.loc[players_df['Pre-Auction'] == 'Retained', 'performance_score'] *= 1.2
+    #         return players_df.nlargest(n, 'performance_score')
+        
+    #     top_indian = get_top_players(indian_players, 3)
+    #     top_overseas = get_top_players(overseas_players, 1)
+        
+    #     retention_suggestions = pd.concat([top_indian, top_overseas])
+        
+    #     # Calculate retention costs
+    #     retention_costs = [15, 11, 7, 4]  # crores, in order of retention
+    #     retention_suggestions['retention_cost'] = retention_costs[:len(retention_suggestions)]
+        
+    #     return retention_suggestions
+    # def suggest_retentions(self, current_team: str) -> pd.DataFrame:
+    #     """
+    #     Enhanced retention strategy with flexible retention count based on performance.
+    #     Maximum 4 players can be retained, with maximum 1 overseas player.
+    #     Retention is not mandatory - only suggests players if their performance justifies it.
+    #     """
+    #     team_players = self.data[self.data['Team'] == current_team].copy()
+        
+    #     # Calculate performance scores for all players
+    #     team_players['performance_score'] = team_players.apply(self.calculate_player_score, axis=1)
+        
+    #     # Set performance thresholds for retention
+    #     RETENTION_THRESHOLD = 0.6  # Only retain players above this performance score
+        
+    #     # Separate Indian and overseas players and sort by performance
+    #     indian_players = team_players[team_players['National Side'] == 'India'].copy()
+    #     overseas_players = team_players[team_players['National Side'] != 'India'].copy()
+        
+    #     indian_players = indian_players[indian_players['performance_score'] >= RETENTION_THRESHOLD]
+    #     overseas_players = overseas_players[overseas_players['performance_score'] >= RETENTION_THRESHOLD]
+        
+    #     # Sort both by performance score
+    #     indian_players = indian_players.sort_values('performance_score', ascending=False)
+    #     overseas_players = overseas_players.sort_values('performance_score', ascending=False)
+        
+    #     # Select retentions based on performance
+    #     retentions = []
+        
+    #     # Add top overseas player if performance is good enough
+    #     if not overseas_players.empty and overseas_players.iloc[0]['performance_score'] >= RETENTION_THRESHOLD:
+    #         retentions.append(overseas_players.iloc[0])
+        
+    #     # Add top Indian players (up to 3, only if performance is good enough)
+    #     for _, player in indian_players.head(3).iterrows():
+    #         if len(retentions) < 4:  # Check total retention limit
+    #             retentions.append(player)
+        
+    #     if not retentions:
+    #         return pd.DataFrame()  # Return empty DataFrame if no players meet retention criteria
+        
+    #     retention_suggestions = pd.DataFrame(retentions)
+        
+    #     # Sort final suggestions by performance score
+    #     retention_suggestions = retention_suggestions.sort_values('performance_score', ascending=False)
+        
+    #     # Assign retention costs based on number of players retained
+    #     retention_costs = [15, 11, 7, 4]  # crores, in order of retention
+    #     retention_suggestions['retention_cost'] = retention_costs[:len(retention_suggestions)]
+        
+    #     # Add a column explaining why each player was selected
+    #     retention_suggestions['retention_reasoning'] = retention_suggestions.apply(
+    #         lambda x: (
+    #             f"Top {'overseas' if x['National Side'] != 'India' else 'Indian'} performer "
+    #             f"with performance score of {x['performance_score']:.3f}"
+    #         ),
+    #         axis=1
+    #     )
+        
+    #     return retention_suggestions
+    def suggest_retentions(self, current_team: str) -> pd.DataFrame:
+        """
+        Retention strategy considering pre-auction status, performance, and flexibility in retention count.
+        Maximum 4 players can be retained, with a maximum of 1 overseas player.
+        Players are selected based on performance, previous retention status, and overall contribution.
+        """
+        # Filter players of the given team
+        team_players = self.data[self.data['Team'] == current_team].copy()
         
         # Calculate performance scores
         team_players['performance_score'] = team_players.apply(self.calculate_player_score, axis=1)
         
+        # Boost score for previously retained players
+        team_players.loc[team_players['Pre-Auction'] == 'Retained', 'performance_score'] *= 1.2
+        
+        # Set performance threshold for retention
+        RETENTION_THRESHOLD = 0.6  # Retain only players with performance score above this
+        
         # Separate Indian and overseas players
-        indian_players = team_players[team_players['National Side'] == 'India']
-        overseas_players = team_players[team_players['National Side'] != 'India']
+        indian_players = team_players[team_players['National Side'] == 'India'].copy()
+        overseas_players = team_players[team_players['National Side'] != 'India'].copy()
         
-        # Get top players considering both performance and previous retention status
-        def get_top_players(players_df: pd.DataFrame, n: int) -> pd.DataFrame:
-            # Boost score for previously retained players
-            players_df = players_df.copy()
-            players_df.loc[players_df['Pre-Auction'] == 'Retained', 'performance_score'] *= 1.2
-            return players_df.nlargest(n, 'performance_score')
+        # Filter players based on performance threshold
+        indian_players = indian_players[indian_players['performance_score'] >= RETENTION_THRESHOLD]
+        overseas_players = overseas_players[overseas_players['performance_score'] >= RETENTION_THRESHOLD]
         
-        top_indian = get_top_players(indian_players, 3)
-        top_overseas = get_top_players(overseas_players, 1)
+        # Sort players by performance score
+        indian_players = indian_players.sort_values('performance_score', ascending=False)
+        overseas_players = overseas_players.sort_values('performance_score', ascending=False)
         
-        retention_suggestions = pd.concat([top_indian, top_overseas])
+        # Select retentions
+        retentions = []
         
-        # Calculate retention costs
+        # Add top overseas player if they meet the threshold
+        if not overseas_players.empty:
+            top_overseas = overseas_players.iloc[0]
+            retentions.append(top_overseas)
+        
+        # Add top Indian players (up to 3)
+        for _, player in indian_players.head(3).iterrows():
+            if len(retentions) < 4:  # Check total retention limit
+                retentions.append(player)
+        
+        # Return an empty DataFrame if no players meet retention criteria
+        if not retentions:
+            return pd.DataFrame()
+        
+        # Create a DataFrame for selected retentions
+        retention_suggestions = pd.DataFrame(retentions)
+        
+        # Sort final suggestions by performance score
+        retention_suggestions = retention_suggestions.sort_values('performance_score', ascending=False)
+        
+        # Assign retention costs
         retention_costs = [15, 11, 7, 4]  # crores, in order of retention
         retention_suggestions['retention_cost'] = retention_costs[:len(retention_suggestions)]
         
+        # Add reasoning for retention
+        retention_suggestions['retention_reasoning'] = retention_suggestions.apply(
+            lambda x: (
+                f"Top {'overseas' if x['National Side'] != 'India' else 'Indian'} performer "
+                f"with performance score of {x['performance_score']:.3f} "
+                f"{'(previously retained)' if x['Pre-Auction'] == 'Retained' else ''}"
+            ),
+            axis=1
+        )
+        
         return retention_suggestions
+
 
     def optimize_budget(self, retained_players: pd.DataFrame, target_roles: Dict[str, Tuple[int, int]]) -> Dict[str, float]:
         """Optimize budget allocation for different player roles"""
