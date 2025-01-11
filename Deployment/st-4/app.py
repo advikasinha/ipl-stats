@@ -70,14 +70,16 @@ class EnhancedIPLTeamPlanner:
         """
         team_players = self.data[self.data['Team'] == current_team].copy()
         team_players['performance_score'] = team_players.apply(self.calculate_player_score, axis=1)
+        team_players['estimated_price'] = (team_players['performance_score'] * self.retention_budget / 4).round(2)
+        team_players['estimated_price'] = team_players['estimated_price'].clip(upper=self.retention_budget / 2)
         
         # Filter Indian batsmen and overseas players
         indian_players = team_players[(team_players['National Side'] == 'India')]
         overseas_players = team_players[team_players['National Side'] != 'India']
         
         # Select top players
-        top_indian_players= indian_players.nlargest(5, 'performance_score')[['Name', 'Type', 'performance_score','National Side', 'Team']]
-        top_overseas_players = overseas_players.nlargest(3, 'performance_score')[['Name', 'Type', 'performance_score',"National Side", 'Team']]
+        top_indian_players= indian_players.nlargest(5, 'performance_score')[['Name', 'Type', 'performance_score','National Side', 'Team', 'estimated_price']]
+        top_overseas_players = overseas_players.nlargest(3, 'performance_score')[['Name', 'Type', 'performance_score',"National Side", 'Team', 'estimated_price']]
         
         return top_indian_players, top_overseas_players
 
@@ -86,13 +88,15 @@ class EnhancedIPLTeamPlanner:
         Categorize players into high and medium priority based on performance thresholds.
         """
         self.data['performance_score'] = self.data.apply(self.calculate_player_score, axis=1)
+        self.data['estimated_price'] = (self.data['performance_score'] * self.retention_budget / 4).round(2)
+        self.data['estimated_price'] = self.data['estimated_price'].clip(upper=self.retention_budget / 2)
         
         # High-priority players
-        high_priority = self.data[self.data['performance_score'] >= threshold_high][['Name', 'Type', 'performance_score', 'Team']]
+        high_priority = self.data[self.data['performance_score'] >= threshold_high][['Name', 'Type', 'performance_score', 'Team', 'estimated_price']]
         
         # Medium-priority players
         medium_priority = self.data[(self.data['performance_score'] >= threshold_medium) &
-                                     (self.data['performance_score'] < threshold_high)][['Name', 'Type', 'performance_score', 'Team']]
+                                     (self.data['performance_score'] < threshold_high)][['Name', 'Type', 'performance_score', 'Team', 'estimated_price']]
         
         return high_priority.sort_values('performance_score', ascending=False), medium_priority.sort_values('performance_score', ascending=False)
 
@@ -112,6 +116,7 @@ class EnhancedIPLTeamPlanner:
 
 # Main Application
 if __name__ == "__main__":
+    # st.set_page_config(layout='wide')
     st.title("Enhanced IPL Franchise Planning System")
 
     uploaded_file = st.file_uploader("Upload IPL dataset (CSV)", type=['csv'])
@@ -122,16 +127,74 @@ if __name__ == "__main__":
 
         # Franchise Selection
         franchise = st.selectbox("Select Your Franchise", sorted(data['Team'].unique()))
+        
+        # Team Analysis Dashboard
+        st.header("Current Team Analysis:")
+        team_data = data[data['Team'] == franchise]
+        
+        # Team composition visualization
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            # Player type distribution
+            fig_composition = px.pie(
+                team_data,
+                names='Type',
+                title='Team Composition',
+                color_discrete_sequence=px.colors.cyclical.Edge
+            )
+            st.plotly_chart(fig_composition)
+            
+        with col2:
+            # Experience level distribution
+            team_data['Experience_Level'] = pd.cut(
+                team_data['IPL Matches'],
+                bins=[-1, 10, 30, 60, float('inf')],
+                labels=['Rookie', 'Developing', 'Experienced', 'Veteran']
+            )
+            fig_experience = px.pie(
+                team_data,
+                names='Experience_Level',
+                title='Team Experience Distribution',
+                color_discrete_sequence=px.colors.cyclical.Edge
+            )
+            st.plotly_chart(fig_experience)
 
         # Retention Suggestions
         st.header("Retention Suggestions")
         top_indian_batsmen, top_overseas_players = planner.suggest_retentions(franchise)
         
-        st.subheader("Top Indian Batsmen")
-        st.dataframe(top_indian_batsmen)
-        
-        st.subheader("Top Overseas Players")
-        st.dataframe(top_overseas_players)
+        cb_in=[False, False, False, False, False]
+        st.subheader(f"Top Indian Players for {franchise}")
+        ret_ind_df=pd.DataFrame(top_indian_batsmen)
+        ret_ind_df['Retain']=cb_in
+        st.data_editor(ret_ind_df,
+        column_config={
+        "Retain": st.column_config.CheckboxColumn(
+            "Retain?",
+            help="Choose players you want to retain",
+            default=False,
+        )
+    },
+    disabled=["widgets"],
+    hide_index=True,
+)
+
+        cb_intl=[False, False, False]
+        st.subheader(f"Top Overseas Players for {franchise}")
+        ret_intl_df=pd.DataFrame(top_overseas_players)
+        ret_intl_df['Retain']=cb_intl
+        st.data_editor(ret_intl_df,
+        column_config={
+        "Retain": st.column_config.CheckboxColumn(
+            "Retain?",
+            help="Choose players you want to retain",
+            default=False,
+        )
+    },
+    disabled=["widgets"],
+    hide_index=True,
+)
 
         # High and Medium Priority Players
         st.header("Target Players")
