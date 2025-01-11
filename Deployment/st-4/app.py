@@ -15,6 +15,7 @@ class EnhancedIPLTeamPlanner:
         self.max_overseas = 8
         self.playing_xi_overseas = 4
         self.current_budget = self.total_budget
+        self.current_retention_budget = self.retention_budget
 
     def calculate_player_score(self, row: pd.Series) -> float:
         """Enhanced player scoring incorporating more metrics"""
@@ -82,23 +83,52 @@ class EnhancedIPLTeamPlanner:
         top_overseas_players = overseas_players.nlargest(3, 'performance_score')[['Name', 'Type', 'performance_score',"National Side", 'Team', 'estimated_price']]
         
         return top_indian_players, top_overseas_players
-
+    
+    def calculate_similarity_score(self, player1: pd.Series, player2: pd.Series) -> float:
+        """Calculate similarity between two players based on performance, batting and Bowling"""
+        # Performance similarity (50% weight)
+        perf_similarity = 1 - abs(player1['performance_score'] - player2['performance_score'])
+        
+        # Batting style similarity (25% weight)
+        batting_similarity = 1.0 if player1['Batting Style'] == player2['Batting Style'] else 0.0
+        
+        # Bowling similarity (25% weight)
+        bowling_similarity = 1.0 if player1['Bowling'] == player2['Bowling'] else 0.0
+        
+        # Calculate weighted similarity
+        total_similarity = (perf_similarity * 0.5 + 
+                          batting_similarity * 0.25 + 
+                          bowling_similarity * 0.25)
+        
+        return total_similarity
+    
     def categorize_priority(self, threshold_high: float = 0.7, threshold_medium: float = 0.5) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        """
-        Categorize players into high and medium priority based on performance thresholds.
-        """
-        self.data['performance_score'] = self.data.apply(self.calculate_player_score, axis=1)
-        self.data['estimated_price'] = (self.data['performance_score'] * self.retention_budget / 4).round(2)
-        self.data['estimated_price'] = self.data['estimated_price'].clip(upper=self.retention_budget / 2)
-        
-        # High-priority players
-        high_priority = self.data[self.data['performance_score'] >= threshold_high][['Name', 'Type', 'performance_score', 'Team', 'estimated_price']]
-        
-        # Medium-priority players
-        medium_priority = self.data[(self.data['performance_score'] >= threshold_medium) &
-                                     (self.data['performance_score'] < threshold_high)][['Name', 'Type', 'performance_score', 'Team', 'estimated_price']]
-        
-        return high_priority.sort_values('performance_score', ascending=False), medium_priority.sort_values('performance_score', ascending=False)
+            """Categorize players into high and medium priority based on performance thresholds."""
+            self.data['performance_score'] = self.data.apply(self.calculate_player_score, axis=1)
+            self.data['estimated_price'] = (self.data['performance_score'] * self.retention_budget / 4).round(2)
+            self.data['estimated_price'] = self.data['estimated_price'].clip(upper=self.retention_budget / 2)
+            
+            # Select relevant columns for display
+            display_columns = [
+                'Name', 'Type', 'performance_score', 'Team', 'estimated_price',
+                'BattingS/R', 'Wickets', 'BattingAVG', 'BowlingAVG', 'EconomyRate',
+                'Batting Style', 'Bowling'
+            ]
+            
+            # High-priority players
+            high_priority = self.data[self.data['performance_score'] >= threshold_high][display_columns].copy()
+            
+            # Medium-priority players
+            medium_priority = self.data[
+                (self.data['performance_score'] >= threshold_medium) & 
+                (self.data['performance_score'] < threshold_high)
+            ][display_columns].copy()
+            
+            # Add selection column
+            high_priority['Select'] = False
+            medium_priority['Select'] = False
+            
+            return high_priority.sort_values('performance_score', ascending=False), medium_priority.sort_values('performance_score', ascending=False)
 
     def update_budget(self, selected_players: pd.DataFrame):
         """Update the budget based on selected players."""
@@ -106,24 +136,45 @@ class EnhancedIPLTeamPlanner:
         self.current_budget = self.total_budget - total_cost
 
     def get_player_replacements(self, player: pd.Series) -> pd.DataFrame:
-        """Find replacement players for a given player."""
+        """Find replacement players for a given player based on enhanced similarity."""
         available_players = self.data[self.data['Type'] == player['Type']].copy()
+        available_players['performance_score'] = available_players.apply(self.calculate_player_score, axis=1)
         available_players['similarity_score'] = available_players.apply(
-            lambda x: 1 - abs(player['performance_score'] - x['performance_score']), axis=1
+            lambda x: self.calculate_similarity_score(player, x), axis=1
         )
         
-        return available_players.nlargest(5, 'similarity_score')[['Name', 'Type', 'performance_score', 'similarity_score', 'Team']]
-
+        display_columns = [
+            'Name', 'Type', 'performance_score', 'similarity_score', 'Team',
+            'BattingS/R', 'Wickets', 'BattingAVG', 'BowlingAVG', 'EconomyRate',
+            'Batting Style', 'Bowling'
+        ]
+        
+        return available_players.nlargest(5, 'similarity_score')[display_columns]
+    
 # Main Application
 if __name__ == "__main__":
     # st.set_page_config(layout='wide')
     st.title("Enhanced IPL Franchise Planning System")
+
+    if 'current_budget' not in st.session_state:
+        st.session_state.current_budget = 90.0
+    if 'current_retention_budget' not in st.session_state:
+        st.session_state.current_retention_budget = 42.0
 
     uploaded_file = st.file_uploader("Upload IPL dataset (CSV)", type=['csv'])
 
     if uploaded_file is not None:
         data = pd.read_csv(uploaded_file)
         planner = EnhancedIPLTeamPlanner(data)
+
+        # Sidebar for budget tracking
+        st.sidebar.header("Budget Tracker")
+        st.sidebar.metric("Total Budget Remaining", 
+                         f"₹{st.session_state.current_budget:.2f}Cr",
+                         f"₹{90.0 - st.session_state.current_budget:.2f}Cr used")
+        st.sidebar.metric("Retention Budget Remaining", 
+                         f"₹{st.session_state.current_retention_budget:.2f}Cr",
+                         f"₹{42.0 - st.session_state.current_retention_budget:.2f}Cr used")
 
         # Franchise Selection
         franchise = st.selectbox("Select Your Franchise", sorted(data['Team'].unique()))
@@ -174,11 +225,14 @@ if __name__ == "__main__":
             "Retain?",
             help="Choose players you want to retain",
             default=False,
-        )
-    },
-    disabled=["widgets"],
-    hide_index=True,
-)
+        ),
+        "estimated_price": st.column_config.NumberColumn(
+                        "Estimated Price (Cr)",
+                        format="₹%.2f"
+                    )
+                },
+                hide_index=True
+            )
 
         cb_intl=[False, False, False]
         st.subheader(f"Top Overseas Players for {franchise}")
@@ -187,33 +241,78 @@ if __name__ == "__main__":
         st.data_editor(ret_intl_df,
         column_config={
         "Retain": st.column_config.CheckboxColumn(
-            "Retain?",
+            "Select",
             help="Choose players you want to retain",
             default=False,
-        )
-    },
-    disabled=["widgets"],
-    hide_index=True,
-)
+        ),"estimated_price": st.column_config.NumberColumn(
+                        "Estimated Price (Cr)",
+                        format="₹%.2f"
+                    )
+                },
+                hide_index=True
+            )
 
         # High and Medium Priority Players
         st.header("Target Players")
         high_priority, medium_priority = planner.categorize_priority()
 
+        def update_budgets(df):
+            selected_players = df[df['Select']].copy()
+            if not selected_players.empty:
+                total_cost = selected_players['estimated_price'].sum()
+                st.session_state.current_budget -= total_cost
+                st.session_state.current_retention_budget -= total_cost
+                st.experimental_rerun()
+
         tabs = st.tabs(["High Priority", "Medium Priority"])
         with tabs[0]:
             st.subheader("High Priority Players")
-            st.dataframe(high_priority)
+            edited_high = st.data_editor(
+                high_priority,
+                column_config={
+                    "Select": st.column_config.CheckboxColumn(
+                        "Select",
+                        help="Select player for retention",
+                        default=False
+                    ),
+                    "estimated_price": st.column_config.NumberColumn(
+                        "Estimated Price (Cr)",
+                        format="₹%.2f"
+                    )
+                },
+                hide_index=True
+            )
+            if st.button("Update Budget (High Priority)"):
+                update_budgets(edited_high)
+
         with tabs[1]:
             st.subheader("Medium Priority Players")
-            st.dataframe(medium_priority)
+            edited_medium = st.data_editor(
+                medium_priority,
+                column_config={
+                    "Select": st.column_config.CheckboxColumn(
+                        "Select",
+                        help="Select player for retention",
+                        default=False
+                    ),
+                    "estimated_price": st.column_config.NumberColumn(
+                        "Estimated Price (Cr)",
+                        format="₹%.2f"
+                    )
+                },
+                hide_index=True
+            )
+            if st.button("Update Budget (Medium Priority)"):
+                update_budgets(edited_medium)
 
-        # Replacement Analysis
+        # Enhanced Replacement Analysis
         st.header("Player Replacement Analysis")
         selected_player = st.selectbox("Select Player to Find Replacements", data['Name'])
 
         if selected_player:
             player_data = data[data['Name'] == selected_player].iloc[0]
+            player_data['performance_score'] = planner.calculate_player_score(player_data)
             replacements = planner.get_player_replacements(player_data)
-            st.subheader(f"Replacements for {selected_player}")
+            st.subheader(f"Potential Replacements for {selected_player}")
             st.dataframe(replacements)
+
