@@ -16,24 +16,24 @@ def set_custom_style():
     )
     
 def load_team_logos():
-    """Load team logos from assets directory"""
+    """Load team logos from Deployment/assets directory"""
     team_logos = {
-        'MI': 'assets/team_logos/mi.png',
-        'CSK': 'assets/team_logos/csk.png',
-        'RCB': 'assets/team_logos/rcb.png',
-        'KKR': 'assets/team_logos/kkr.png',
-        'DC': 'assets/team_logos/dc.png',
-        'PBKS': 'assets/team_logos/pbks.png',
-        'RR': 'assets/team_logos/rr.png',
-        'SRH': 'assets/team_logos/srh.png',
-        'GT': 'assets/team_logos/gt.png',
-        'LSG': 'assets/team_logos/lsg.png'
+        'MI': 'Deployment/assets/team_logos/mi.png',
+        'CSK': 'Deployment/assets/team_logos/csk.png',
+        'RCB': 'Deployment/assets/team_logos/rcb.png',
+        'KKR': 'Deployment/assets/team_logos/kkr.png',
+        'DC': 'Deployment/assets/team_logos/dc.png',
+        'PBKS': 'Deployment/assets/team_logos/pbks.png',
+        'RR': 'Deployment/assets/team_logos/rr.png',
+        'SRH': 'Deployment/assets/team_logos/srh.png',
+        'GT': 'Deployment/assets/team_logos/gt.png',
+        'LSG': 'Deployment/assets/team_logos/lsg.png'
     }
     return team_logos
 
 def display_banner():
-    """Display IPL banner from local assets"""
-    banner_path = 'assets/ipl-banner.jpg'
+    """Display IPL banner from local Deployment/assets"""
+    banner_path = 'Deployment/assets/ipl-banner.jpg'
     if os.path.exists(banner_path):
         banner_img = Image.open(banner_path)
         st.image(banner_img, use_column_width=True, caption="")
