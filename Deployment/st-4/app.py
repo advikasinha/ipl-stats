@@ -36,7 +36,7 @@ def display_banner():
     banner_path = 'Deployment/st-4/assets/ipl-banner.jpg'
     if os.path.exists(banner_path):
         banner_img = Image.open(banner_path)
-        st.image(banner_img, use_column_width=True, caption="")
+        st.image(banner_img, use_container_width=True, caption="")
     else:
         st.error(f"Banner image not found at {banner_path}")
 
@@ -69,7 +69,7 @@ def display_team_grid(data: pd.DataFrame, team_logos: dict):
                 ):
                     st.session_state.selected_team = team
                     st.session_state.show_analysis = True
-                st.image(logo_img, caption=team, use_column_width=True)
+                st.image(logo_img, caption=team, use_container_width=True)
                 st.markdown("</center></div>", unsafe_allow_html=True)
 
 def show_team_analysis(data: pd.DataFrame, planner: 'EnhancedIPLTeamPlanner', franchise: str):
