@@ -18,22 +18,22 @@ def set_custom_style():
 def load_team_logos():
     """Load team logos from Deployment/assets directory"""
     team_logos = {
-        'MI': 'Deployment/assets/team_logos/mi.png',
-        'CSK': 'Deployment/assets/team_logos/csk.png',
-        'RCB': 'Deployment/assets/team_logos/rcb.png',
-        'KKR': 'Deployment/assets/team_logos/kkr.png',
-        'DC': 'Deployment/assets/team_logos/dc.png',
-        'PBKS': 'Deployment/assets/team_logos/pbks.png',
-        'RR': 'Deployment/assets/team_logos/rr.png',
-        'SRH': 'Deployment/assets/team_logos/srh.png',
-        'GT': 'Deployment/assets/team_logos/gt.png',
-        'LSG': 'Deployment/assets/team_logos/lsg.png'
+        'MI': 'Deployment/st-4/assets/team_logos/mi.png',
+        'CSK': 'Deployment/st-4/assets/team_logos/csk.png',
+        'RCB': 'Deployment/st-4/assets/team_logos/rcb.png',
+        'KKR': 'Deployment/st-4/assets/team_logos/kkr.png',
+        'DC': 'Deployment/st-4/assets/team_logos/dc.png',
+        'PBKS': 'Deployment/st-4/assets/team_logos/pbks.png',
+        'RR': 'Deployment/st-4/assets/team_logos/rr.png',
+        'SRH': 'Deployment/st-4/assets/team_logos/srh.png',
+        'GT': 'Deployment/st-4/assets/team_logos/gt.png',
+        'LSG': 'Deployment/st-4/assets/team_logos/lsg.png'
     }
     return team_logos
 
 def display_banner():
     """Display IPL banner from local Deployment/assets"""
-    banner_path = 'Deployment/assets/ipl-banner.jpg'
+    banner_path = 'Deployment/st-4/assets/ipl-banner.jpg'
     if os.path.exists(banner_path):
         banner_img = Image.open(banner_path)
         st.image(banner_img, use_column_width=True, caption="")
