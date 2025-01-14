@@ -78,6 +78,16 @@ def show_team_analysis(data: pd.DataFrame, planner: 'EnhancedIPLTeamPlanner', fr
     with st.sidebar:
         st.markdown('<div class="metrics-container">', unsafe_allow_html=True)
         st.header("💰 Budget Tracker")
+        #Sidebar "Update Budget" button
+        if st.button("Update Budget", key="update_budget"):
+        #Logic to update budget after selecting players
+            total_spent = sum(player['price'] for player in st.session_state.selected_players)
+            retention_spent = sum(
+                player['price'] for player in st.session_state.selected_players if player.get('is_retention')
+                    )
+            st.session_state.current_budget = 90.0 - total_spent
+            st.session_state.current_retention_budget = 42.0 - retention_spent
+            st.success("Budget updated!")
         col1, col2 = st.columns(2)
         with col1:
             st.metric(
@@ -259,27 +269,27 @@ class EnhancedIPLTeamPlanner:
         self.current_budget = self.total_budget
         self.current_retention_budget = self.retention_budget
 
-        # # Initialize session state
-        # if 'current_budget' not in st.session_state:
-        #     st.session_state.current_budget = self.total_budget
-        # if 'current_retention_budget' not in st.session_state:
-        #     st.session_state.current_retention_budget = self.retention_budget
-        # if 'selected_players' not in st.session_state:
-        #     st.session_state.selected_players = []
-        # if 'player_counts' not in st.session_state:
-        #     st.session_state.player_counts = {
-        #         'Batsman': 0,
-        #         'Bowler': 0,
-        #         'Wicket-Keeper': 0,
-        #         'All-rounder': 0
-        #     }
-        # if 'max_players_by_type' not in st.session_state:
-        #     st.session_state.max_players_by_type = {
-        #         'Batsman': 7,
-        #         'Bowler': 7,
-        #         'Wicket-Keeper': 3,
-        #         'All-rounder': 8
-        #     }
+        #initialize session state
+        if 'current_budget' not in st.session_state:
+            st.session_state.current_budget = self.total_budget
+        if 'current_retention_budget' not in st.session_state:
+            st.session_state.current_retention_budget = self.retention_budget
+        if 'selected_players' not in st.session_state:
+            st.session_state.selected_players = []
+        if 'player_counts' not in st.session_state:
+            st.session_state.player_counts = {
+                 'Batsman': 0,
+                 'Bowler': 0,
+                'Wicket-Keeper': 0,
+                'All-rounder': 0
+         }
+        if 'max_players_by_type' not in st.session_state:
+            st.session_state.max_players_by_type = {
+                'Batsman': 7,
+                'Bowler': 7,
+                'Wicket-Keeper': 3,
+                'All-rounder': 8
+            }
 
 
     def calculate_player_score(self, row: pd.Series) -> float:
@@ -461,50 +471,6 @@ class EnhancedIPLTeamPlanner:
         
         return available_players.nlargest(5, 'similarity_score')[display_columns]
 
-# # Main Application
-# if __name__ == "__main__":
-#     set_custom_style()    
-#     st.title("_IPL Franchise Auction Tool_")
-#     display_banner()
-
-#     top_col1, top_col2 = st.columns([8, 1])
-#     with top_col2:
-#         if st.button("Update Budget", key="update_budget"):
-#             # Logic to update budget after selecting players
-#             st.session_state.current_budget = 90.0 - sum(
-#                 [player['price'] for player in st.session_state.selected_players]
-#             )
-#             st.session_state.current_retention_budget = 42.0 - sum(
-#                 [player['price'] for player in st.session_state.selected_players if player.get('is_retention')]
-#             )
-#             st.sidebar.success("Budget updated!")
-
-#     # Initialize session state for team selection
-#     if 'selected_team' not in st.session_state:
-#         st.session_state.selected_team = None
-#     if 'show_analysis' not in st.session_state:
-#         st.session_state.show_analysis = False
-
-#     uploaded_file = st.file_uploader("Upload IPL dataset (CSV)", type=['csv'])
-
-#     if uploaded_file is not None:
-#         data = pd.read_csv(uploaded_file)
-#         planner = EnhancedIPLTeamPlanner(data)
-        
-#         # If no team is selected, show the team selection grid
-#         if not st.session_state.show_analysis:
-#             team_logos = load_team_logos()
-#             display_team_grid(data, team_logos)
-#         else:
-#             # Show back button
-#             if st.button("← Back to Team Selection"):
-#                 st.session_state.show_analysis = False
-#                 st.session_state.selected_team = None
-#                 st.experimental_rerun()
-            
-#             # Show analysis for selected team
-#             show_team_analysis(data, planner, st.session_state.selected_team)
-
 # Main Application
 if __name__ == "__main__":
     set_custom_style()    
@@ -522,19 +488,6 @@ if __name__ == "__main__":
     if uploaded_file is not None:
         data = pd.read_csv(uploaded_file)
         planner = EnhancedIPLTeamPlanner(data)
-
-        # Sidebar "Update Budget" button
-        with st.sidebar:
-            if st.button("Update Budget", key="update_budget"):
-                # Logic to update budget after selecting players
-                total_spent = sum(player['price'] for player in st.session_state.selected_players)
-                retention_spent = sum(
-                    player['price'] for player in st.session_state.selected_players if player.get('is_retention')
-                )
-                st.session_state.current_budget = 90.0 - total_spent
-                st.session_state.current_retention_budget = 42.0 - retention_spent
-                st.success("Budget updated!")
-
 
         # If no team is selected, show the team selection grid
         if not st.session_state.show_analysis:
