@@ -478,8 +478,8 @@ if __name__ == "__main__":
     display_banner()
 
     # Initialize session state for team selection
-    if 'selected_team' not in st.session_state:
-        st.session_state.selected_team = None
+    # if 'selected_team' not in st.session_state:
+    #     st.session_state.selected_team = None
     if 'show_analysis' not in st.session_state:
         st.session_state.show_analysis = False
 
