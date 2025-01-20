@@ -490,7 +490,7 @@ if __name__ == "__main__":
         planner = EnhancedIPLTeamPlanner(data)
 
         # If no team is selected, show the team selection grid
-        if not st.session_state.show_analysis:
+        if not st.session_state.show_analysis or st.session_state.selected_team is None:
             team_logos = load_team_logos()
             display_team_grid(data, team_logos)
         else:
@@ -501,4 +501,5 @@ if __name__ == "__main__":
                 # st.experimental_rerun()
             
             # Show analysis for selected team
-            show_team_analysis(data, planner, st.session_state.selected_team)
+            if st.session_state.selected_team:
+                show_team_analysis(data, planner, st.session_state.selected_team)
