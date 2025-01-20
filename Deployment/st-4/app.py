@@ -404,7 +404,7 @@ class EnhancedIPLTeamPlanner:
                         'price': player['estimated_price'],
                         'is_retention': is_retention
                     })
-                    st.experimental_rerun()
+                    # st.experimental_rerun()
                     return True
             else:
                 st.error(f"Not enough budget for {player['Name']}")
@@ -417,7 +417,7 @@ class EnhancedIPLTeamPlanner:
                     st.session_state.current_budget += player['estimated_price']
                     self.update_team_composition(selected, adding=False)
                     st.session_state.selected_players.pop(i)
-                    st.experimental_rerun()
+                    # st.experimental_rerun()
                     break
             return True
 
@@ -498,7 +498,7 @@ if __name__ == "__main__":
             if st.button("← Back to Team Selection"):
                 st.session_state.show_analysis = False
                 st.session_state.selected_team = None
-                st.experimental_rerun()
+                # st.experimental_rerun()
             
             # Show analysis for selected team
             show_team_analysis(data, planner, st.session_state.selected_team)
